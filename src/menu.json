@@ -1,0 +1,34 @@
+{
+    "menu": [
+        {
+            "title": "Pumkin Cream Soup",
+            "image": "pumpkin.png",
+            "slug": "pumkin-cream-soup"
+        },
+        {
+            "title": "Dumpling",
+            "image": "dumpling.png",
+            "slug": "dumpling"
+        },
+        {
+            "title": "Cream Banana",
+            "image": "banana.png",
+            "slug": "cream-banana"
+        },
+        {
+            "title": "Coffe Lava Cake",
+            "image": "cake.png",
+            "slug": "coffe-lava-cake"
+        },
+        {
+            "title": "Wild Alaska Salmon",
+            "image": "salmon.png",
+            "slug": "wild-alaska-salmon"
+        },
+        {
+            "title": "India Salad",
+            "image": "Salad.png",
+            "slug": "india-salad"
+        }
+    ]
+}
