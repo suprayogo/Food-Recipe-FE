@@ -3,32 +3,38 @@
         {
             "title": "Pumkin Cream Soup",
             "image": "pumpkin.png",
-            "slug": "pumkin-cream-soup"
+            "slug": "pumkin-cream-soup",
+            "ingredients": "3 tablespoons unsalted butter.1 small white onion, chopped.1 garlic clove, minced.1 tablespoon firmly packed light brown sugar.1/2 teaspoon freshly ground cinnamon.1/4 teaspoon white pepper.1/4 teaspoon freshly ground nutmeg.1/8 teaspoon cayenne pepper.1 (15-ounce) can pure pumpkin puree.3 cups low-sodium vegetable broth.Kosher salt.1/2 cup heavy whipping cream.Crème fraîche, for garnish (optional)."
         },
         {
             "title": "Dumpling",
             "image": "dumpling.png",
-            "slug": "dumpling"
+            "slug": "dumpling",
+            "ingredients": "test dumpling"
         },
         {
             "title": "Cream Banana",
             "image": "banana.png",
-            "slug": "cream-banana"
+            "slug": "cream-banana",
+            "ingredients": "test banana"
         },
         {
             "title": "Coffe Lava Cake",
             "image": "cake.png",
-            "slug": "coffe-lava-cake"
+            "slug": "coffe-lava-cake",
+            "ingredients": "test cake"
         },
         {
             "title": "Wild Alaska Salmon",
             "image": "salmon.png",
-            "slug": "wild-alaska-salmon"
+            "slug": "wild-alaska-salmon",
+            "ingredients": "test salmon"
         },
         {
             "title": "India Salad",
             "image": "Salad.png",
-            "slug": "india-salad"
+            "slug": "india-salad",
+            "ingredients": "test salad"
         }
     ]
 }

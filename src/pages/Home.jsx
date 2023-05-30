@@ -35,7 +35,7 @@ function App() {
             </div>
             <div className="col-md-5 col-xs-12 order-1 order-md-2">
               <img
-                src="/img/home.png"
+                src="/image/home.png"
                 width="400px"
                 height="400px"
                 style={{
@@ -61,7 +61,7 @@ function App() {
           >
             <div className="col-md-6 col-xs-12">
               <img
-                src="/img/fench.png"
+                src="/image/fench.png"
                 width="500px"
                 height="500px"
                 style={{ zIndex: 1 }}
@@ -92,7 +92,7 @@ function App() {
           >
             <div className="col-md-6 col-xs-12">
               <img
-                src="/img/fench.png"
+                src="/image/fench.png"
                 width="500px"
                 height="500px"
                 style={{ zIndex: 1 }}
