@@ -1,12 +1,35 @@
 import "../styles/Home.css";
+import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
-import recipeList from "../menu.json";
+import axios from "axios";
 
 function App() {
+  
+const [recipeList, setRecipeList] = React.useState([]);
+const [keyword, setKeyword] = React.useState("");
+
+
+
+React.useEffect(() => {
+  axios
+  .get(`${process.env.REACT_APP_BASE_URL}/recipes/?limit=9&pages=1&sortType=desc`)
+  .then((response) => setRecipeList(response?.data?.data));
+}, []);
+
+const handleSearch = () => {
+  axios
+  .get(`${process.env.REACT_APP_BASE_URL}/recipes`, {
+    params: {
+      keyword,
+      sortColumn: "name",
+    }
+  })
+  .then((response) => setRecipeList(response?.data?.data));
+}
   return (
-    <div classNameName="App">
+    <div className="App">
       <header>
         <Navbar />
 
@@ -29,6 +52,14 @@ function App() {
                   id="form1"
                   className="form-control form-control-lg"
                   placeholder="Search restaurant, food"
+                  onChange={(e) => setKeyword(e.target.value)}
+                  onKeyDown={(e) => {
+                    if(e.keyCode === 13){
+                      window.location.href=("#popular-recipe");
+                      handleSearch();
+                    }
+                  }}
+                  
                   aria-label="Search"
                 />
               </div>
@@ -78,7 +109,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="bg_yellow_3"></div>
+
       </section>
       {/* <!-- end of new recipe --> */}
 
@@ -119,9 +150,10 @@ function App() {
         <div className="container  animate__animated animate__slideInUp">
           <h2 className="mb-5 subtitle">Popular Recipe</h2>
 
-          <div className="row">
-            {recipeList.menu.map((item) => (
-              <RecipeCard title={item?.title} image={item?.image} />
+          <div className="row ">
+            {recipeList.map((item) => (
+              <RecipeCard title={item?.title} image={item?.recipePicture} 
+              id={item?.id} />
             ))}
 
             {/* move to menu.json 

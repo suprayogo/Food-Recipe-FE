@@ -10,31 +10,38 @@
             "title": "Dumpling",
             "image": "dumpling.png",
             "slug": "dumpling",
-            "ingredients": "test dumpling"
+            "ingredients": "test dumpling. test dumpling 2"
         },
         {
             "title": "Cream Banana",
             "image": "banana.png",
             "slug": "cream-banana",
-            "ingredients": "test banana"
+            "ingredients": "test banana. test banana 2"
         },
         {
             "title": "Coffe Lava Cake",
             "image": "cake.png",
             "slug": "coffe-lava-cake",
-            "ingredients": "test cake"
+            "ingredients": "test cake. test cake 2"
         },
         {
             "title": "Wild Alaska Salmon",
             "image": "salmon.png",
             "slug": "wild-alaska-salmon",
-            "ingredients": "test salmon"
+            "ingredients": "test salmon. test salmon 2"
         },
         {
             "title": "India Salad",
             "image": "salad.png",
             "slug": "india-salad",
-            "ingredients": "test salad"
+            "ingredients": "test salad. test salad 2"
+        },
+        {
+            "title": "Nasi Goreng",
+            "image": "nasiGoreng.png",
+            "slug": "nasi-goreng",
+           
+"ingredients": "2 centong nasi putih.1 butir telur.5 buah cabe merah.3 siung bawang merah ukuran sedang.2 siung bawang putih ukuran sedang.kecap manis.saus sambal.garam.penyedap"
         }
     ]
 }

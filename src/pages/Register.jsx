@@ -1,7 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+  const [email, setEmail] = React.useState("");
+  const [fullname, setFullname] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  
+  const handleRegister = () => {
+    axios.post(`${process.env.REACT_APP_BASE_URL}/profile`, {
+      email: email,
+      fullname: fullname,
+      phoneNumber: phoneNumber,
+      password: password,
+    })
+    .then(() => {
+      Swal.fire({
+        title: 'Register Success',
+        text:  "Register Success, Redirecet In App",
+        icon: 'success'
+      })
+      .then(() => {
+        navigate("/login")
+      })
+    })
+  }
   return (
     <>
       <div className="container">
@@ -11,7 +38,9 @@ function Register() {
             <p className="text-center">Create new account to access all features</p>
             <hr />
 
-            <form>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+            }}>
               <div className="mb-3">
                 <label for="exampleInputName" className="form-label">
                   Name
@@ -21,6 +50,8 @@ function Register() {
                   className="form-control form-control-lg"
                   id="name"
                   placeholder="Enter Your Name"
+                  required
+                  onChange={(e) => setFullname(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -33,6 +64,8 @@ function Register() {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="Enter Email address"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -44,31 +77,25 @@ function Register() {
                   className="form-control form-control-lg"
                   id="exampleInputPhoneNumber"
                   placeholder="08xxxxxxxxxx"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
                 />
               </div>
               <div className="mb-3">
                 <label for="exampleInputPassword1" className="form-label">
-                  Create New Password
+                  Create Password
                 </label>
                 <input
-                  type="password1"
+                  type="password"
                   className="form-control form-control-lg"
                   id="exampleInputPassword1"
                   aria-describedby="emailHelp"
-                  placeholder="Create New Password"
+                  placeholder="Create Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
-              <div className="mb-3">
-                <label for="exampleInputPassword2" className="form-label">
-                  New Password
-                </label>
-                <input
-                  type="password2"
-                  className="form-control form-control-lg"
-                  id="exampleInputPassword2"
-                  placeholder="New Password"
-                />
-              </div>
+      
               <div className="mb-3 form-check">
                 <input
                   type="checkbox"
@@ -80,7 +107,7 @@ function Register() {
                 </label>
               </div>
               <div className="d-grid mb-3">
-                <button type="submit" className="btn btn-warning btn-lg">
+                <button type="submit" className="btn btn-warning btn-lg" onClick={handleRegister}>
                   Register
                 </button>
               </div>

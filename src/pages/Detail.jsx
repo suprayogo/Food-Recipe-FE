@@ -1,21 +1,29 @@
 import React from "react";
 import "../styles/Detail.css";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import recipeList from "../menu.json";
+import axios from "axios";
 
-
-function Detail() {
-  const detail = recipeList.menu;
+function Detail(props) {
+ 
   const location = useLocation();
   const [currentRecipe, setCurrentRecipe] = React.useState(null);
-  React.useEffect(() => {
-    const currentSlug = location?.pathname?.split("/")[2];
+  const id = location?.search?.split("?id=")[1];
 
+  
+  // handle scrolll to top
+  React.useEffect(() => {
     window.scrollTo(0, 0);
-    setCurrentRecipe(detail.find((res) => res.slug === currentSlug));
   }, []);
+  
+  React.useEffect(()=> {
+    axios
+    .get(`${process.env.REACT_APP_BASE_URL}/recipes/${id}`)
+    .then((response) => setCurrentRecipe(response?.data?.data[0]));
+  }, [])
+
+
 
   return (
     <div>
@@ -28,7 +36,7 @@ function Detail() {
           <h1 className="text-primary text-center">{currentRecipe?.title}</h1>
           <div className="d-flex justify-content-center">
             <img
-              src={`/image/${currentRecipe?.image}`}
+              src={`${currentRecipe?.recipePicture}`}
               className="main-image"
             />
           </div>
@@ -48,9 +56,9 @@ function Detail() {
             <div className="col offset-md-2">
               <h2>Video Steps</h2>
               <div className="btn btn-warning d-grid gap-11 col-md-2">
-                <a href="">
+                <Link to={`/video/${id}`}>
                   <img src="/image/vector.png" height="15px" width="15px" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

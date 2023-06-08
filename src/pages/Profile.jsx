@@ -1,25 +1,63 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import "../styles/Profile.css"
+import "../styles/Profile.scss"
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import RecipeCard from '../components/RecipeCard';
+import Video from './Video';
+
+
 function Profile() {
+const navigate = useNavigate();
+const [profile, setProfile] = React.useState([])
+const [recipeList, setRecipeList] = React.useState([])
+
+
+
+
+
+React.useEffect(() =>{
+  if(!localStorage.getItem("auth")){
+    navigate("/login");
+}
+}, [])
+
+React.useEffect(() => {
+  axios.get(`${process.env.REACT_APP_BASE_URL}/profile`)
+  .then((response) => {
+    setProfile(response?.data?.data[0])
+  })
+  
+  axios.get(`${process.env.REACT_APP_BASE_URL}/recipes/profile/me`)
+  .then((result) => {
+    setRecipeList(result.data?.data)
+  })
+  
+  
+}, [])
+
+
+
+
     return (
         <>
-        
+
+
 <header>
     <Navbar />
 
     
     <div class="container d-flex justify-content-center">
         <img
-          src="./image/profil.png"
+          src={profile?.profilePicture}
           class="img-responsive rounded-circle"
           height="150"
           width="150"
         />
       </div>
       <div class="d-flex justify-content-center mt-4">
-        <h5>Rizki Suprayogo</h5>
+        <h5>{profile?.fullname}</h5>
         <hr />
       </div>
 </header>
@@ -44,38 +82,12 @@ function Profile() {
 
         <div class="card-body">
           <div class="row">
-            <div class="col-md-4 col-xs-12 mb-4">
-              <div
-                class="menu-background"
-                style={{backgroundImage: `url('/image/pumpkin.png')`}}
-              >
-                <h3 style={{textShadow: "0px 0px 2px rgba(0, 0, 0, 0.4)"}}>
-                  Pumpkin Cream Soup
-                </h3>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-xs-12 mb-4">
-              <div
-                class="menu-background"
-                style={{backgroundImage: `url('/image/dumpling.png')`}}
-              >
-                <h3 style={{textShadow: "0px 0px 2px rgba(0, 0, 0, 0.4)"}}>
-                  Dumpling
-                </h3>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-xs-12 mb-4">
-              <div
-                class="menu-background"
-                style={{backgroundImage: `url('/image/banana.png')`}}
-              >
-                <h3 style={{textShadow: "0px 0px 2px rgba(0, 0, 0, 0.4)"}}>
-                  Cream Banana
-                </h3>
-              </div>
-            </div>
+{recipeList.map((item) =>(
+   <RecipeCard title={item?.title} image={item?.recipePicture} 
+   id={item?.id} />
+))}
+        
+  
           </div>
         </div>
       </div>

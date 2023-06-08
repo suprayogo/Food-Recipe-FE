@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 function Navbar() {
+
+
   return (
     <div>
       <nav className="container mt-4">
@@ -40,7 +42,7 @@ function Navbar() {
                     ? "text-click text-decoration-none"
                     : " text-primary fw-medium text-decoration-none"
                 }
-                to="/profile"
+                to={`/profile`}
               >
                 Profile
               </NavLink>
@@ -52,6 +54,21 @@ function Navbar() {
               zIndex: 1,
             }}
           >
+            {localStorage.getItem("auth") ? (
+            <>
+                 <Link
+              className="text-white  fw-medium text-decoration-none"
+          onClick={() => {
+            localStorage.clear();
+
+            window.location.href = "/login"
+          }}
+            >
+              Logout
+            </Link>
+            </>) : (
+              <>
+              
             <Link
               className="text-white me-5  fw-medium text-decoration-none"
               to="/login"
@@ -64,6 +81,8 @@ function Navbar() {
             >
               Register
             </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>

@@ -1,7 +1,59 @@
 import React from "react";
 import "../styles/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import {addAuth} from "../reducers/auth"
+
+
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const state = useSelector((reducer) => reducer.auth);
+
+
+
+
+React.useEffect(() => {
+  if (localStorage.getItem("auth") || state.auth){
+    navigate("/profile");
+  }
+}, [state]);
+
+
+const handleLogin = () => {
+  axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+    email: email,
+    password: password
+  })
+  .then((result) => {
+    Swal.fire({
+      title: 'Login Success',
+      text:  "Login Success, Redirecet In App",
+      icon: 'success'
+    }).then(() => {
+      localStorage.setItem("auth", "true");
+      localStorage.setItem("token", result?.data?.token);
+      dispatch(addAuth(result));
+    navigate("/profile");
+    })
+  })
+  .catch((error) => {
+    Swal.fire({
+      title: 'Login Failed',
+      text:   error?.response?.data?.message ?? "Something wrong in our app",
+      icon: 'error'
+    });
+
+
+
+  })
+}
+
+
   return (
     <>
       <div className="container">
@@ -11,7 +63,9 @@ function Login() {
             <p className="text-center">Log in into your exiting account</p>
             <hr />
 
-            <form>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+            }}>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   E-mail
@@ -22,6 +76,7 @@ function Login() {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -33,6 +88,7 @@ function Login() {
                   className="form-control form-control-lg"
                   id="exampleInputPassword1"
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mb-3 form-check">
@@ -46,7 +102,7 @@ function Login() {
                 </label>
               </div>
               <div className="d-grid">
-                <button type="submit" className="btn btn-warning btn-lg">
+                <button type="submit" className="btn btn-warning btn-lg" onClick={handleLogin}>
                   Log in
                 </button>
               </div>
