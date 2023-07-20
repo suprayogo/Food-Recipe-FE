@@ -50,20 +50,14 @@ REACT_APP_BASE_URLL=YOUR_API_URL
 ### Landing
 <img src="./readme/ss-landing.jpg" />
 
-### List Recipe
-<img src="./readme/ss-list.jpg" />
 
 ### Detail Recipe
 <img src="./readme/ss-detail.jpg" />
 
-### Video Step
-<img src="./readme/ss-video.jpg" />
 
 ### Add Recipe
 <img src="./readme/ss-add.jpg" />
 
-### Edit Recipe
-<img src="./readme/ss-edit.jpg" />
 
 ### Profile
 <img src="./readme/ss-profile.jpg" />
