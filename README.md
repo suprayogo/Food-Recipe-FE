@@ -65,8 +65,8 @@ REACT_APP_BASE_URLL=YOUR_API_URL
 <!-- RELATED PROJECT -->
 ## Related Project
 
-- [Koleksi Resep API](https://github.com/suprayogo/pijar-food-be-new)
-- [Koleksi Resep Demo](https://rizki-suprayogo-learn-react-fe.vercel.app/)
+- [Food Recipe API](https://github.com/suprayogo/pijar-food-be-new)
+- [Food Recipe Demo](https://rizki-suprayogo-learn-react-fe.vercel.app/)
 
 <!-- CONTACT INFO -->
 ## Contact Info
