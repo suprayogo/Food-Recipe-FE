@@ -88,7 +88,7 @@ function Navbar() {
       </nav>
 
       <div className="mt-2 d-flex justify-content-between align-items-center hide-desktop">
-        <img src="/image/logo.png" width="70px" height="70px" />
+        {/* <img src="/image/logo.png" width="70px" height="70px" /> */}
         <button
           className="btn"
           type="button"
