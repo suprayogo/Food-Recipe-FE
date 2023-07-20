@@ -45,22 +45,22 @@ REACT_APP_BASE_URLL=YOUR_API_URL
 <img src="./readme/ss-login.jpeg" />
 
 ### Register
-<img src="./readme/ss-register.jpg" />
+<img src="./readme/ss-register.jpeg" />
 
 ### Landing
-<img src="./readme/ss-landing.jpg" />
+<img src="./readme/ss-landing.jpeg" />
 
 
 ### Detail Recipe
-<img src="./readme/ss-detail.jpg" />
+<img src="./readme/ss-detail.jpeg" />
 
 
 ### Add Recipe
-<img src="./readme/ss-add.jpg" />
+<img src="./readme/ss-add.jpeg" />
 
 
 ### Profile
-<img src="./readme/ss-profile.jpg" />
+<img src="./readme/ss-profile.jpeg" />
 
 <!-- RELATED PROJECT -->
 ## Related Project
