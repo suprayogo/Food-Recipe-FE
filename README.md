@@ -42,7 +42,7 @@ REACT_APP_BASE_URLL=YOUR_API_URL
 ## Screenshot
 
 ### Login
-<img src="./readme/ss-login.jpg" />
+<img src="./readme/ss-login.jpeg" />
 
 ### Register
 <img src="./readme/ss-register.jpg" />
