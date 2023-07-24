@@ -4,30 +4,55 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function App() {
-  
-const [recipeList, setRecipeList] = React.useState([]);
-const [keyword, setKeyword] = React.useState("");
+  const [recipeList, setRecipeList] = React.useState([]);
+  const [keyword, setKeyword] = React.useState("");
+  const [recipePopular, setRecipePopular] = React.useState([]); 
+  const [recipeNew, setRecipeNew] = React.useState([]); 
+  const [isDataFound, setIsDataFound] = React.useState(true);
+
+  React.useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/popular`)
+      .then((response) => setRecipePopular(response?.data?.data));
+  }, []);
 
 
+  React.useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_URL}/recipes/?limit=9&pages=1&sortType=desc`
+      )
+      .then((response) => setRecipeList(response?.data?.data));
+  }, []);
 
-React.useEffect(() => {
-  axios
-  .get(`${process.env.REACT_APP_BASE_URL}/recipes/?limit=9&pages=1&sortType=desc`)
-  .then((response) => setRecipeList(response?.data?.data));
-}, []);
+  React.useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASE_URL}/recipes/?created=old`
+      )
+      .then((response) => setRecipeNew(response?.data?.data));
+  }, []);
 
 const handleSearch = () => {
-  axios
-  .get(`${process.env.REACT_APP_BASE_URL}/recipes`, {
-    params: {
-      keyword,
-      sortColumn: "name",
-    }
-  })
-  .then((response) => setRecipeList(response?.data?.data));
-}
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/recipes`, {
+        params: {
+          keyword,
+          sortColumn: "title",
+        },
+      })
+      .then((response) => {
+        setRecipeList(response?.data?.data);
+        setIsDataFound(response?.data?.data?.length > 0); // Periksa apakah data ditemukan atau tidak
+      })
+      .catch((error) => {
+        setIsDataFound(false); // Jika ada kesalahan, anggap data tidak ditemukan
+        console.error("Error searching recipes:", error);
+      });
+  };
   return (
     <div className="App">
       <header>
@@ -54,12 +79,11 @@ const handleSearch = () => {
                   placeholder="Search restaurant, food"
                   onChange={(e) => setKeyword(e.target.value)}
                   onKeyDown={(e) => {
-                    if(e.keyCode === 13){
-                      window.location.href=("#popular-recipe");
+                    if (e.keyCode === 13) {
+                      window.location.href = "#popular-recipe";
                       handleSearch();
                     }
                   }}
-                  
                   aria-label="Search"
                 />
               </div>
@@ -90,26 +114,50 @@ const handleSearch = () => {
             className="row align-items-center"
             style={{ marginTop: "100px" }}
           >
-            <div className="col-md-6 col-xs-12">
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/detail/${recipePopular[0]?.title
+                ?.toLowerCase()
+                ?.split(" ")
+                ?.join("-")}?id=${recipePopular[0]?.id}`}
+              className="col-md-6 col-xs-12"
+            >
               <img
-                src="/image/fench.png"
+                src={recipePopular[0]?.recipePicture}
+                alt="Recipe Popular"
                 width="500px"
                 height="500px"
-                style={{ zIndex: 1 }}
+                style={{
+                  zIndex: 1,
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+             
               />
-            </div>
-            <div className="col-md-5 col-xs-12">
-              <h3>French Toast (Perancis)</h3>
+            </Link>
+
+            <div className="col-md-6 col-xs-12">
+              <h3>
+                {recipePopular[0]?.title
+                  ? recipePopular[0].title
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")
+                  : ""}
+              </h3>
               <hr style={{ width: "20%" }} />
               <p className="text-muted">
-                Quick + Easy Chicken Bone Broth Ramen- Healthy chicken ramen in
-                a hurry? That’s right!
+                A dish that brings an extraordinary sensation to the favorite
+                and mainstay recipes, making it a dish that is liked and desired
+                by many people
               </p>
               <button className="btn btn-warning">Learn More</button>
             </div>
           </div>
         </div>
-
       </section>
       {/* <!-- end of new recipe --> */}
 
@@ -122,19 +170,43 @@ const handleSearch = () => {
             style={{ marginTop: "100px" }}
           >
             <div className="col-md-6 col-xs-12">
+
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/detail/${recipeNew[0]?.title
+                ?.toLowerCase()
+                ?.split(" ")
+                ?.join("-")}?id=${recipeNew[0]?.id}`}
+              className="col-md-6 col-xs-12"
+            >
+
               <img
-                src="/image/fench.png"
+                src={recipeNew[0]?.recipePicture}
                 width="500px"
                 height="500px"
-                style={{ zIndex: 1 }}
+                style={{
+                  zIndex: 1,
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+          
               />
+
+              </Link>
             </div>
             <div className="col-md-5 col-xs-12">
-              <h3>Healthy Bone Broth Ramen (Quick & Easy)</h3>
+              <h3>      {recipeNew[0]?.title
+                  ? recipeNew[0].title
+                      .split(" ")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")
+                  : ""}</h3>
               <hr style={{ width: "20%" }} />
               <p className="text-muted">
-                Quick + Easy Chicken Bone Broth Ramen- Healthy chicken ramen in
-                a hurry? That’s right!
+              Experience a new sensation with our latest recipe, featuring creative cuisine with flavors that tantalize the palate, making each bite a delightful indulgence!
               </p>
               <button className="btn btn-warning">Learn More</button>
             </div>
@@ -150,21 +222,20 @@ const handleSearch = () => {
         <div className="container  animate__animated animate__slideInUp">
           <h2 className="mb-5 subtitle">Popular Recipe</h2>
 
-          <div className="row ">
-            {recipeList.map((item) => (
-              <RecipeCard title={item?.title} image={item?.recipePicture} 
-              id={item?.id} />
-            ))}
-
-            {/* move to menu.json 
- < RecipeCard title= "Pumkin Cream Soup" image="pumpkin.png"/>
- < RecipeCard title= "Dumpling" image="dumpling.png" />
- < RecipeCard title= "Cream Banana" image="banana.png" />
- < RecipeCard title= "Coffe Lava Cake" image="cake.png" />
- < RecipeCard title= "Wild Alasaka Salmon" image="salmon.png" />
- < RecipeCard title= "India Salad" image="salad.png" />
- */}
-          </div>
+      
+          {isDataFound ? ( // Tampilkan hasil jika data ditemukan, atau tampilkan pesan jika tidak ditemukan
+            <div className="row text-decoration-none">
+              {recipeList.map((item) => (
+                <RecipeCard
+                  title={item?.title}
+                  image={item?.recipePicture}
+                  id={item?.id}
+                />
+              ))}
+            </div>
+          ) : (
+            <h2 className="text-muted d-flex justify-content-center align-items-center">Recipe Not Found</h2>
+          )}
         </div>
       </section>
 

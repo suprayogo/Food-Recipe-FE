@@ -8,6 +8,7 @@ import {addAuth} from "../reducers/auth"
 
 
 function Login() {
+  const [isChecked, setIsChecked] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState("");
@@ -24,35 +25,42 @@ React.useEffect(() => {
 }, [state]);
 
 
+
 const handleLogin = () => {
-  axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
-    email: email,
-    password: password
-  })
-  .then((result) => {
+  if (!isChecked) {
     Swal.fire({
-      title: 'Login Success',
-      text:  "Login Success, Redirecet In App",
-      icon: 'success'
-    }).then(() => {
-      localStorage.setItem("auth", "true");
-      localStorage.setItem("token", result?.data?.token);
-      dispatch(addAuth(result));
-    navigate("/profile");
-    })
-  })
-  .catch((error) => {
-    Swal.fire({
-      title: 'Login Failed',
-      text:   error?.response?.data?.message ?? "Something wrong in our app",
-      icon: 'error'
+      title: 'Agree to Terms',
+      text: 'Please agree to the terms & conditions to log in.',
+      icon: 'warning',
     });
+    return;
+  }
 
-
-
-  })
-}
-
+  axios
+    .post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+      email: email,
+      password: password,
+    })
+    .then((result) => {
+      Swal.fire({
+        title: 'Login Success',
+        text: 'Login Success, Redirect In App',
+        icon: 'success',
+      }).then(() => {
+        localStorage.setItem('auth', 'true');
+        localStorage.setItem('token', result?.data?.token);
+        dispatch(addAuth(result));
+        navigate('/profile');
+      });
+    })
+    .catch((error) => {
+      Swal.fire({
+        title: 'Login Failed',
+        text: error?.response?.data?.message ?? 'Something wrong in our app',
+        icon: 'error',
+      });
+    });
+  }
 
   return (
     <>
@@ -96,13 +104,15 @@ const handleLogin = () => {
                   type="checkbox"
                   className="form-check-input"
                   id="exampleCheck1"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
                 />
                 <label className="form-check-label" for="exampleCheck1">
                   I agree to terms & conditions
                 </label>
               </div>
               <div className="d-grid">
-                <button type="submit" className="btn btn-warning btn-lg" onClick={handleLogin}>
+                <button type="submit" disabled={!isChecked} className="btn btn-warning btn-lg" onClick={handleLogin}>
                   Log in
                 </button>
               </div>
