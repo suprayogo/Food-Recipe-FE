@@ -40,7 +40,8 @@ REACT_APP_BASE_URLL=YOUR_API_URL
 
 <!-- SCREENSHOT -->
 ## Screenshot
-`___`
+<hr>
+
 ### Login
 <img src="./readme/ss-login.jpeg" />
 
