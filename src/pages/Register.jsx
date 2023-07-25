@@ -3,44 +3,78 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 function Register() {
+  const [isChecked, setIsChecked] = React.useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
   const [fullname, setFullname] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [password, setPassword] = React.useState("");
-  
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handlePasswordToggle = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   const handleRegister = () => {
-    axios.post(`${process.env.REACT_APP_BASE_URL}/profile`, {
-      email: email,
-      fullname: fullname,
-      phoneNumber: phoneNumber,
-      password: password,
-    })
-    .then(() => {
-      Swal.fire({
-        title: 'Register Success',
-        text:  "Register Success, Redirecet In App",
-        icon: 'success'
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/auth/register`, {
+        email: email,
+        fullname: fullname,
+        phoneNumber: phoneNumber,
+        password: password,
       })
       .then(() => {
-        navigate("/login")
+        Swal.fire({
+          title: "Register Success",
+          text: "Register Success, Redirect In App",
+          icon: "success",
+        }).then(() => {
+          navigate("/login");
+        });
       })
-    })
-  }
+      .catch((error) => {
+        console.error("Error registering:", error);
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const errorMessage = error.response.data.message;
+          Swal.fire({
+            title: "Register Error",
+            text: errorMessage,
+            icon: "error",
+          });
+        } else {
+          Swal.fire({
+            title: "Register Error",
+            text: "An error occurred during registration. Please try again later.",
+            icon: "error",
+          });
+        }
+      });
+  };
+
   return (
     <>
       <div className="container">
         <div className="row justify-content-center align-items-center vh-100">
           <div className="col-md-4 col-xs-12">
             <h1 className="text-center text-warning">Let’s Get Started !</h1>
-            <p className="text-center">Create new account to access all features</p>
+            <p className="text-center">
+              Create new account to access all features
+            </p>
             <hr />
 
-            <form onSubmit={(event) => {
-              event.preventDefault();
-            }}>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
               <div className="mb-3">
                 <label for="exampleInputName" className="form-label">
                   Name
@@ -82,32 +116,53 @@ function Register() {
                 />
               </div>
               <div className="mb-3">
-                <label for="exampleInputPassword1" className="form-label">
+                <label htmlFor="exampleInputPassword1" className="form-label">
                   Create Password
                 </label>
-                <input
-                  type="password"
-                  className="form-control form-control-lg"
-                  id="exampleInputPassword1"
-                  aria-describedby="emailHelp"
-                  placeholder="Create Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control form-control-lg"
+                    id="exampleInputPassword1"
+                    aria-describedby="emailHelp"
+                    placeholder="Create Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    className="btn btn-outline-warning"
+                    type="button"
+                    onClick={handlePasswordToggle}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
-      
+
               <div className="mb-3 form-check">
                 <input
                   type="checkbox"
                   className="form-check-input"
                   id="exampleCheck1"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
                 />
                 <label className="form-check-label" for="exampleCheck1">
                   I agree to terms & conditions
                 </label>
               </div>
+
+
+
+
               <div className="d-grid mb-3">
-                <button type="submit" className="btn btn-warning btn-lg" onClick={handleRegister}>
+                <button
+                  type="submit"
+                  className="btn btn-warning btn-lg"
+                  onClick={handleRegister}
+                  disabled={!isChecked}
+                >
                   Register
                 </button>
               </div>

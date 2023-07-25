@@ -5,6 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import {addAuth} from "../reducers/auth"
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 function Login() {
@@ -14,6 +15,10 @@ function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const state = useSelector((reducer) => reducer.auth);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handlePasswordToggle = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
 
 
@@ -85,20 +90,39 @@ const handleLogin = () => {
                   aria-describedby="emailHelp"
                   placeholder="Email address"
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
+
+
               <div className="mb-3">
                 <label for="exampleInputPassword1" className="form-label">
                   Password
                 </label>
+                <div className="input-group">
                 <input
-                  type="password"
+                 type={showPassword ? "text" : "password"}
                   className="form-control form-control-lg"
                   id="exampleInputPassword1"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
+                     <button
+                    className="btn btn-outline-warning"
+                    type="button"
+                    onClick={handlePasswordToggle}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
               </div>
+              </div>
+
+
+
+
+
+
               <div className="mb-3 form-check">
                 <input
                   type="checkbox"
