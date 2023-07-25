@@ -150,9 +150,9 @@ function Navbar() {
                 onClick={() => {
                   localStorage.clear();
 
-                  window.location.href = "/login";
+                  window.location.href = "/";
                 }}
-                to="/login"
+                to="/"
               >
                 Logout
               </NavLink>
