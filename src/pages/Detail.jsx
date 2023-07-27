@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaPlay, FaRegBookmark, FaRegThumbsUp } from "react-icons/fa";
 
 function Detail(props) {
  
@@ -12,6 +14,7 @@ function Detail(props) {
   const id = location?.search?.split("?id=")[1];
 
   
+
   // handle scrolll to top
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,12 +37,23 @@ function Detail(props) {
       <section id="content">
         <div className="container">
           <h1 className="text-primary text-center">{currentRecipe?.title}</h1>
-          <div className="d-flex justify-content-center">
-            <img
-              src={`${currentRecipe?.recipePicture}`}
-              className="main-image"
-            />
-          </div>
+
+
+
+          
+          <div className="d-flex justify-content-center position-relative">
+      <img src={`${currentRecipe?.recipePicture}`} className="main-image" />
+
+      <div className="icon">
+        <i className="icon-item bg-warning color-primary p-3 fs-5 rounded-3">
+          <FaRegThumbsUp />
+        </i>
+      </div>
+    </div>
+
+
+
+
           <div className="row mt-4">
             <div className="col offset-md-2">
               <h2>Ingredients</h2>

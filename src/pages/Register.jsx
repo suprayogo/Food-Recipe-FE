@@ -19,6 +19,15 @@ function Register() {
   };
 
   const handleRegister = () => {
+    if (!isChecked) {
+      Swal.fire({
+        title: 'Agree to Terms',
+        text: 'Please agree to the terms & conditions to log in.',
+        icon: 'warning',
+      });
+      return;
+    }
+       Swal.showLoading();
     axios
       .post(`${process.env.REACT_APP_BASE_URL}/auth/register`, {
         email: email,

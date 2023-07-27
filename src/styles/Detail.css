@@ -22,8 +22,38 @@
     box-shadow: 0 0 0 0.2rem rgba(231, 210, 20, 0.493);
   }
 
+  .main-image {
+    max-width: 100%;
+    height: auto;
+  
+  }
+  
+  
+  .icon {
+    position: absolute;
+    bottom: 30px;
+    right: 30vh;
+  }
+  
+
+  .icon .icon-item {
+    background-color: #ffc107; 
+    color: white; 
+    padding: 2.75rem; 
+    font-size: 1.25rem;
+    border-radius: 50%;
+  }
+  
+  .icon .icon-item:hover {
+    cursor: pointer;
+  }
+  
+  
 @media only screen and (min-width: 576px) and (max-width: 768px) {
 }
+
+
+
 
 @media only screen and (max-width: 575px) {
   nav {
@@ -38,6 +68,7 @@
   header .col-md-7 .w-50 {
     width: 100% !important;
   }
+
 
 #content {
 margin-top: 50px;
@@ -101,3 +132,21 @@ footer {
     bottom: 0;
     z-index: 1;
   }
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .icon {
+  
+    bottom: 40px;
+    right: 125px;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .icon {
+   
+    bottom: 35px;
+    right: 20px;
+  }
+}

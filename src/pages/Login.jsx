@@ -40,7 +40,7 @@ const handleLogin = () => {
     });
     return;
   }
-
+  Swal.showLoading();
   axios
     .post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
       email: email,
@@ -55,6 +55,7 @@ const handleLogin = () => {
         localStorage.setItem('auth', 'true');
         localStorage.setItem('token', result?.data?.token);
         dispatch(addAuth(result));
+        console.log(result?.data?.token);
         navigate('/profile');
       });
     })

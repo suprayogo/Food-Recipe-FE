@@ -20,6 +20,8 @@ function Add() {
     setShowNotification(false);
   };
 
+  console.log(recipePicture);
+
   useEffect(() => {
     const checkLoginStatus = () => {
       if (!localStorage.getItem("auth")) {
@@ -29,7 +31,7 @@ function Add() {
           text: "You haven't logged in yet!",
           showCancelButton: true,
           confirmButtonText: "Go to Login",
-          cancelButtonText: "Stay Here",
+          cancelButtonText: "Cancel",
         }).then((result) => {
           if (result.isConfirmed) {
             navigate("/login");
@@ -43,8 +45,6 @@ function Add() {
     checkLoginStatus();
   }, []);
 
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -56,13 +56,12 @@ function Add() {
         });
         return;
       }
-
       const formData = new FormData();
       formData.append("title", title);
       formData.append("ingredients", ingredients);
       formData.append("video_link", video_link);
       formData.append("photo", recipePicture);
-
+      Swal.showLoading();
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/recipes`,
         formData
@@ -87,18 +86,13 @@ function Add() {
     }
   };
 
-
-  
-
-
-
-
   return (
     <>
       <header>
         <Navbar />
       </header>
-      <section>
+
+      <section style={{ padding: 0, margin: 0 }}>
         <form
           onSubmit={handleSubmit}
           method="POST"
@@ -108,50 +102,86 @@ function Add() {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  {recipePicture && (
-                    <div>
-                      <h2>Image Preview:</h2>
-                      <img
-                       src={URL.createObjectURL(recipePicture)}
-                        alt="Selected"
-                        style={{ width: "15%", height: "15%" }}
-                      />
-                    </div>
-                  )}
-
-                  <div className="dropzone-wrapper">
-                    <div className="dropzone-desc">
-                      <p style={{ fontWeight: "bold" }}>Add Photo</p>
-                    </div>
+                  <label
+                    style={{
+                      border: recipePicture ? "none" : "2px dashed #91b0b3",
+                      color: "#92b0b3",
+                      position: "relative",
+                      height: recipePicture ? "400px" : "25vh",
+                      width: "100%",
+                      maxWidth: "600px",
+                      margin: "0 auto",
+                      top: "50px",
+                      fontSize: "16px",
+                      textAlign: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
                     <input
                       type="file"
-                      name="img_logo"
-                      className="dropzone"
+                      accept="image/*"
                       onChange={(e) => setRecipePicture(e.target.files[0])}
+                      style={{ display: "none" }}
                     />
-                  </div>
+                    {recipePicture ? (
+                      <>
+                        <div
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "400px",
+                            overflow: "hidden",
+                            margin: "0 auto",
+                            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+                          }}
+                        >
+                          <img
+                            src={URL.createObjectURL(recipePicture)}
+                            alt="Image Preview"
+                            title={recipePicture.name}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              objectPosition: "center",
+                            }}
+                          />
+                        </div>
+                        <div style={{ marginTop: "1rem" }}>
+                          Click image to change image
+                        </div>
+                      </>
+                    ) : (
+                      <div>Add Foto</div>
+                    )}
+                  </label>
                 </div>
               </div>
             </div>
 
             <div className="row mt-4">
-              <div className="col-md-12">
+              <div className="col-md-12 d-flex justify-content-center">
                 <label
-                  for="exampleFormControlInput1"
+                  htmlFor="exampleFormControlInput1"
                   className="form-label"
                 ></label>
                 <input
                   type="title"
-                  className="form-control"
+                  className="form-control mt-5"
                   id="exampleFormControlInput1"
                   placeholder="Title"
                   onChange={(e) => setTitle(e.target.value)}
+                  style={{ width: "100%", maxWidth: "600px" }}
                 />
               </div>
             </div>
 
             <div className="row mt-4 mb-3">
-              <div className="col-md-12">
+              <div className="col-md-12 d-flex justify-content-center">
                 <label
                   for="exampleFormControlTextarea1"
                   className="form-label"
@@ -160,23 +190,28 @@ function Add() {
                   className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="6"
-                  placeholder="Ingredients, NB: Each ingredient ends with a period (.) Example: 1 kg of salt."
+                  placeholder={`Ingredients, NB: end the sentence with a period (.)\nExample:\n1 kg of salt.\n1 ons sugar.\n5 ons chicken.`}
                   onChange={(e) => setIngredients(e.target.value)}
+                  style={{ width: "100%", maxWidth: "600px" }}
                 ></textarea>
               </div>
             </div>
 
             <div>
               {showNotification && (
-                <div className="alert alert-info mt-4" role="alert">
-                  Copy the link from youtube and copy the id like the yellow
-                  text : https://www.youtube.com/watch?v=
-                  <span style={{ backgroundColor: "yellow" }}>3VjwogzQSD8</span>
+                <div className="col-md-12 d-flex justify-content-center">
+                  <div className=" alert alert-info mt-4 " role="alert">
+                    Copy the link from youtube and copy the id like the yellow
+                    text : https://www.youtube.com/watch?v=
+                    <span style={{ backgroundColor: "yellow" }}>
+                      3VjwogzQSD8
+                    </span>
+                  </div>
                 </div>
               )}
 
               <div className="row mb-3">
-                <div className="col-md-12">
+                <div className="col-md-12 d-flex justify-content-center">
                   <label
                     htmlFor="exampleFormControlInput1"
                     className="form-label"
@@ -189,6 +224,7 @@ function Add() {
                     onFocus={handleInputFocus}
                     onBlur={handleInputBlur}
                     onChange={(e) => setVideoLink(e.target.value)}
+                    style={{ width: "100%", maxWidth: "600px" }}
                   />
                 </div>
               </div>
@@ -199,7 +235,7 @@ function Add() {
                 <button
                   className="btn btn-warning d-grid gap-11 col-md-4"
                   type="submit"
-                  style={{ color: "azure" }}
+                  style={{ color: "azure", width: "100%", maxWidth: "100px" }}
                 >
                   Post
                 </button>
