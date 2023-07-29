@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 function App() {
   const [recipeList, setRecipeList] = React.useState([]);
   const [keyword, setKeyword] = React.useState("");
-  const [recipePopular, setRecipePopular] = React.useState([]); 
-  const [recipeNew, setRecipeNew] = React.useState([]); 
+  const [recipePopular, setRecipePopular] = React.useState([]);
+  const [recipeNew, setRecipeNew] = React.useState([]);
   const [isDataFound, setIsDataFound] = React.useState(true);
 
   React.useEffect(() => {
@@ -18,7 +18,6 @@ function App() {
       .get(`${process.env.REACT_APP_BASE_URL}/popular`)
       .then((response) => setRecipePopular(response?.data?.data));
   }, []);
-
 
   React.useEffect(() => {
     axios
@@ -30,13 +29,11 @@ function App() {
 
   React.useEffect(() => {
     axios
-      .get(
-        `${process.env.REACT_APP_BASE_URL}/recipes/?created=old`
-      )
+      .get(`${process.env.REACT_APP_BASE_URL}/recipes/?created=old`)
       .then((response) => setRecipeNew(response?.data?.data));
   }, []);
 
-const handleSearch = () => {
+  const handleSearch = () => {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/recipes`, {
         params: {
@@ -46,10 +43,10 @@ const handleSearch = () => {
       })
       .then((response) => {
         setRecipeList(response?.data?.data);
-        setIsDataFound(response?.data?.data?.length > 0); // Periksa apakah data ditemukan atau tidak
+        setIsDataFound(response?.data?.data?.length > 0); 
       })
       .catch((error) => {
-        setIsDataFound(false); // Jika ada kesalahan, anggap data tidak ditemukan
+        setIsDataFound(false); 
         console.error("Error searching recipes:", error);
       });
   };
@@ -133,7 +130,6 @@ const handleSearch = () => {
                   borderRadius: "10px",
                   objectFit: "cover",
                 }}
-             
               />
             </Link>
 
@@ -170,43 +166,44 @@ const handleSearch = () => {
             style={{ marginTop: "100px" }}
           >
             <div className="col-md-6 col-xs-12">
-
-            <Link
-              style={{ textDecoration: "none" }}
-              to={`/detail/${recipeNew[0]?.title
-                ?.toLowerCase()
-                ?.split(" ")
-                ?.join("-")}?id=${recipeNew[0]?.id}`}
-              className="col-md-6 col-xs-12"
-            >
-
-              <img
-                src={recipeNew[0]?.recipePicture}
-                width="500px"
-                height="500px"
-                style={{
-                  zIndex: 1,
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "10px",
-                  objectFit: "cover",
-                }}
-          
-              />
-
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/detail/${recipeNew[0]?.title
+                  ?.toLowerCase()
+                  ?.split(" ")
+                  ?.join("-")}?id=${recipeNew[0]?.id}`}
+                className="col-md-6 col-xs-12"
+              >
+                <img
+                  src={recipeNew[0]?.recipePicture}
+                  width="500px"
+                  height="500px"
+                  style={{
+                    zIndex: 1,
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
               </Link>
             </div>
             <div className="col-md-5 col-xs-12">
-              <h3>      {recipeNew[0]?.title
+              <h3>
+                {" "}
+                {recipeNew[0]?.title
                   ? recipeNew[0].title
                       .split(" ")
                       .map(
                         (word) => word.charAt(0).toUpperCase() + word.slice(1)
                       )
                       .join(" ")
-                  : ""}</h3>
+                  : ""}
+              </h3>
               <hr style={{ width: "20%" }} />
               <p className="text-muted">
-              Experience a new sensation with our latest recipe, featuring creative cuisine with flavors that tantalize the palate, making each bite a delightful indulgence!
+                Experience a new sensation with our latest recipe, featuring
+                creative cuisine with flavors that tantalize the palate, making
+                each bite a delightful indulgence!
               </p>
               <button className="btn btn-warning">Learn More</button>
             </div>
@@ -222,7 +219,6 @@ const handleSearch = () => {
         <div className="container  animate__animated animate__slideInUp">
           <h2 className="mb-5 subtitle">Popular Recipe</h2>
 
-      
           {isDataFound ? ( // Tampilkan hasil jika data ditemukan, atau tampilkan pesan jika tidak ditemukan
             <div className="row text-decoration-none">
               {recipeList.map((item) => (
@@ -234,7 +230,9 @@ const handleSearch = () => {
               ))}
             </div>
           ) : (
-            <h2 className="text-muted d-flex justify-content-center align-items-center">Recipe Not Found</h2>
+            <h2 className="text-muted d-flex justify-content-center align-items-center">
+              Recipe Not Found
+            </h2>
           )}
         </div>
       </section>
