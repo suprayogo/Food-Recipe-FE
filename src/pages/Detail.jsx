@@ -3,13 +3,16 @@ import "../styles/Detail.css";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Commentar from "../components/Commentar";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 import { FaRegThumbsUp } from "react-icons/fa";
 
 function Detail(props) {
   const location = useLocation();
   const [currentRecipe, setCurrentRecipe] = React.useState(null);
+  const [comment, setComment] = React.useState("");
   const id = location?.search?.split("?id=")[1];
   const [like, setLike] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
@@ -46,27 +49,95 @@ function Detail(props) {
     }
   };
 
-  const handleLikeClick = async (token) => {
+const handleLikeClick = async (token) => {
+  try {
+    if (!token) {
+      // If there's no token, show a login confirmation
+      showLoginConfirmation();
+      return;
+    }
+
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/recipes/${id}/like`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    
+    setLike(!like);
+    setLike(response.data.message === "Recipe liked successfully!");
+
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  } catch (error) {
+    if (error.response) {
+      console.error("Error response from server:", error.response.data);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+    } else {
+      console.error(
+        "Error during request setup or response handling:",
+        error.message
+      );
+    }
+  }
+};
+
+
+  const iconStyle = {
+    backgroundColor: like ? "#ffc107" : "white",
+    color: like ? "white" : "#ffc107",
+  };
+
+
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const token = localStorage.getItem("auth");
+    if (!token) {
+      // If there's no token, show a login confirmation
+      showLoginConfirmation();
+      return;
+    }
+  
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/recipes/${id}/like`,
-        null,
+        `${process.env.REACT_APP_BASE_URL}/recipes/${id}/comment`,
+        { comment },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setLike(!like);
-      setLike(response.data.message === "Recipe liked successfully!");
-
-      setShowNotification(true);
-      setTimeout(() => {
-        setShowNotification(false);
-      }, 3000);
+  
+      console.log(response);
+      // Do something with the response if needed
     } catch (error) {
-      if (error.response) {
+      if (error.response && error.response.status === 401) {
+        // If the response status is 401 (unauthorized), handle the error gracefully
         console.error("Error response from server:", error.response.data);
+        // Show a user-friendly error message
+        Swal.fire({
+          title: "Unauthorized",
+          text: "You must be logged in to perform this action.",
+          icon: "warning",
+        });
+        // Redirect the user to the login page
+        window.location.href = '/login';
+      } else if (error.response) {
+        // For other error responses, show the error message from the backend as a sweet alert
+        console.error("Error response from server:", error.response.data);
+        Swal.fire({
+          title: "Error",
+          text: error.response.data.message,
+          icon: "error",
+        });
       } else if (error.request) {
         console.error("No response received:", error.request);
       } else {
@@ -77,12 +148,20 @@ function Detail(props) {
       }
     }
   };
-
-  const iconStyle = {
-    backgroundColor: like ? "#ffc107" : "white",
-    color: like ? "white" : "#ffc107",
+  const showLoginConfirmation = () => {
+    Swal.fire({
+      title: 'You must be logged in .',
+      showCancelButton: true,
+      confirmButtonText: 'Login',
+      cancelButtonText: 'Cancel',
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = '/login'; // Redirect to the login page
+      }
+    });
   };
-  console.log(like);
+
 
   return (
     <div>
@@ -159,38 +238,49 @@ function Detail(props) {
           <div className="row mt-4">
             <div className="col offset-md-2">
               <h2>Video Steps</h2>
+
+
               <div className="btn btn-warning d-grid gap-11 col-md-2">
                 <Link to={`/video/${id}`}>
                   <img src="/image/vector.png" height="15px" width="15px" />
                 </Link>
               </div>
+
+              
             </div>
           </div>
 
-          <div className="row mt-5">
+          <div className="row mt-5 mb-5">
             <div className="col-md-8 offset-md-2">
-              <div className="mb-5">
-                <label
-                  for="exampleFormControlTextarea1"
-                  className="form-label"
-                ></label>
-                <textarea
-                  className="form-control"
-                  id="exampleFormControlTextarea1"
-                  rows="6"
-                  placeholder="Comment :"
-                ></textarea>
-              </div>
-              <div className="parent">
-                <button
-                  className="btn btn-warning d-grid gap-11 col-md-4"
-                  style={{ color: "azure" }}
-                >
-                  Send
-                </button>
-              </div>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-5">
+                  <label
+                    for="exampleFormControlTextarea1"
+                    className="form-label"
+                  ></label>
+                  <textarea
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="6"
+                    value={comment} 
+                    placeholder="Comment :"
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="parent">
+                  <button
+                   type="submit"
+                    className="btn btn-warning d-grid gap-11 col-md-4"
+                    style={{ color: "azure" }}
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
+
+          <Commentar />
         </div>
       </section>
 

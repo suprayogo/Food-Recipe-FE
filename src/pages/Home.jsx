@@ -150,7 +150,18 @@ function App() {
                 and mainstay recipes, making it a dish that is liked and desired
                 by many people
               </p>
-              <button className="btn btn-warning">Learn More</button>
+
+              <Link
+              style={{ textDecoration: "none" }}
+              to={`/detail/${recipePopular[0]?.title
+                ?.toLowerCase()
+                ?.split(" ")
+                ?.join("-")}?id=${recipePopular[0]?.id}`}
+              className="col-md-6 col-xs-12"
+            >
+              <button className="btn btn-warning">Detail</button>
+</Link>
+
             </div>
           </div>
         </div>
@@ -205,7 +216,21 @@ function App() {
                 creative cuisine with flavors that tantalize the palate, making
                 each bite a delightful indulgence!
               </p>
-              <button className="btn btn-warning">Learn More</button>
+
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/detail/${recipeNew[0]?.title
+                  ?.toLowerCase()
+                  ?.split(" ")
+                  ?.join("-")}?id=${recipeNew[0]?.id}`}
+                className="col-md-6 col-xs-12"
+              >
+
+              <button className="btn btn-warning">Detail</button>
+
+
+</Link>
+
             </div>
           </div>
         </div>
