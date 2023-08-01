@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 function App() {
   const [recipeList, setRecipeList] = React.useState([]);
@@ -12,11 +13,13 @@ function App() {
   const [recipePopular, setRecipePopular] = React.useState([]);
   const [recipeNew, setRecipeNew] = React.useState([]);
   const [isDataFound, setIsDataFound] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/popular`)
       .then((response) => setRecipePopular(response?.data?.data));
+    setLoading(false);
   }, []);
 
   React.useEffect(() => {
@@ -25,12 +28,14 @@ function App() {
         `${process.env.REACT_APP_BASE_URL}/recipes/?limit=9&pages=1&sortType=desc`
       )
       .then((response) => setRecipeList(response?.data?.data));
+    setLoading(false);
   }, []);
 
   React.useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/recipes/?created=old`)
       .then((response) => setRecipeNew(response?.data?.data));
+    setLoading(false);
   }, []);
 
   const handleSearch = () => {
@@ -42,11 +47,13 @@ function App() {
         },
       })
       .then((response) => {
+        setLoading(false);
         setRecipeList(response?.data?.data);
-        setIsDataFound(response?.data?.data?.length > 0); 
+        setIsDataFound(response?.data?.data?.length > 0);
       })
       .catch((error) => {
-        setIsDataFound(false); 
+        setLoading(false);
+        setIsDataFound(false);
         console.error("Error searching recipes:", error);
       });
   };
@@ -86,15 +93,20 @@ function App() {
               </div>
             </div>
             <div className="col-md-5 col-xs-12 order-1 order-md-2">
-              <img
-                src="/image/home.png"
-                width="400px"
-                height="400px"
-                style={{
-                  zIndex: 1,
-                }}
-                className="animate__animated animate__fadeIn header-image"
-              />
+            {loading ? (
+                <Skeleton width={400} height={400} />
+              ) : (
+                <img
+                  src="/image/home.png"
+                  alt="Hero"
+                  width="400px"
+                  height="400px"
+                  className="animate__animated animate__fadeIn header-image"
+                  style={{
+                    zIndex: 1,
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -152,16 +164,15 @@ function App() {
               </p>
 
               <Link
-              style={{ textDecoration: "none" }}
-              to={`/detail/${recipePopular[0]?.title
-                ?.toLowerCase()
-                ?.split(" ")
-                ?.join("-")}?id=${recipePopular[0]?.id}`}
-              className="col-md-6 col-xs-12"
-            >
-              <button className="btn btn-warning">Detail</button>
-</Link>
-
+                style={{ textDecoration: "none" }}
+                to={`/detail/${recipePopular[0]?.title
+                  ?.toLowerCase()
+                  ?.split(" ")
+                  ?.join("-")}?id=${recipePopular[0]?.id}`}
+                className="col-md-6 col-xs-12"
+              >
+                <button className="btn btn-warning">Detail</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -225,12 +236,8 @@ function App() {
                   ?.join("-")}?id=${recipeNew[0]?.id}`}
                 className="col-md-6 col-xs-12"
               >
-
-              <button className="btn btn-warning">Detail</button>
-
-
-</Link>
-
+                <button className="btn btn-warning">Detail</button>
+              </Link>
             </div>
           </div>
         </div>
