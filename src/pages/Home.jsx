@@ -16,6 +16,7 @@ function App() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    setLoading(true); 
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/popular`)
       .then((response) => setRecipePopular(response?.data?.data));
@@ -23,6 +24,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    setLoading(true); 
     axios
       .get(
         `${process.env.REACT_APP_BASE_URL}/recipes/?limit=9&pages=1&sortType=desc`
@@ -32,6 +34,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    setLoading(true); 
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/recipes/?created=old`)
       .then((response) => setRecipeNew(response?.data?.data));
@@ -39,6 +42,7 @@ function App() {
   }, []);
 
   const handleSearch = () => {
+    setLoading(true); 
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/recipes`, {
         params: {
