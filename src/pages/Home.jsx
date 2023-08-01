@@ -259,21 +259,35 @@ function App() {
         <div className="container  animate__animated animate__slideInUp">
           <h2 className="mb-5 subtitle">Popular Recipe</h2>
 
-          {isDataFound ? ( // Tampilkan hasil jika data ditemukan, atau tampilkan pesan jika tidak ditemukan
-            <div className="row text-decoration-none">
-              {recipeList.map((item) => (
-                <RecipeCard
-                  title={item?.title}
-                  image={item?.recipePicture}
-                  id={item?.id}
-                />
-              ))}
-            </div>
-          ) : (
-            <h2 className="text-muted d-flex justify-content-center align-items-center">
-              Recipe Not Found
-            </h2>
-          )}
+          {loading ? (
+  <div className="row text-decoration-none">
+    <div className="col-md-4 col-xs-12 mb-4">
+      <Skeleton width={400} height={300} />
+    </div>
+    <div className="col-md-4 col-xs-12 mb-4">
+      <Skeleton width={400} height={300} />
+    </div>
+    <div className="col-md-4 col-xs-12 mb-4">
+      <Skeleton width={400} height={300} />
+    </div>
+  </div>
+) : isDataFound ? (
+  <div className="row text-decoration-none">
+    {recipeList.map((item) => (
+      <RecipeCard
+        key={item?.id}
+        title={item?.title}
+        image={item?.recipePicture}
+        id={item?.id}
+      />
+    ))}
+  </div>
+) : (
+  <h2 className="text-muted d-flex justify-content-center align-items-center">
+    Recipe Not Found
+  </h2>
+)}
+
         </div>
       </section>
 
