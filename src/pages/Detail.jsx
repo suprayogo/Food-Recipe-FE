@@ -117,7 +117,14 @@ const handleLikeClick = async (token) => {
       );
   
       console.log(response);
-      // Do something with the response if needed
+      Swal.fire({
+        title: "Comment Added",
+        text: "Your comment has been successfully added.",
+        icon: "success",
+      }).then(() => {
+        // Refresh page
+        window.location.reload();
+      });
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // If the response status is 401 (unauthorized), handle the error gracefully
@@ -148,6 +155,8 @@ const handleLikeClick = async (token) => {
       }
     }
   };
+
+
   const showLoginConfirmation = () => {
     Swal.fire({
       title: 'You must be logged in .',
@@ -157,7 +166,7 @@ const handleLikeClick = async (token) => {
       icon: 'warning',
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = '/login'; // Redirect to the login page
+        window.location.href = '/login'; 
       }
     });
   };

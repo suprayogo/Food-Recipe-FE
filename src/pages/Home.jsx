@@ -106,7 +106,7 @@ function App() {
       {/* <!-- pupular for u --> */}
       <section id="popular-for-u">
         <div className="container">
-          <h2 className="mb-5 subtitle">Popular For You !</h2>
+          <h2 className="mb-5 subtitle">Popular Recipe !</h2>
           <div
             className="row align-items-center"
             style={{ marginTop: "100px" }}
