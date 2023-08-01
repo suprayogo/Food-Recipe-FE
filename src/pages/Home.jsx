@@ -93,7 +93,7 @@ function App() {
               </div>
             </div>
             <div className="col-md-5 col-xs-12 order-1 order-md-2">
-            {loading ? (
+              {loading ? (
                 <Skeleton width={400} height={400} />
               ) : (
                 <img
@@ -131,18 +131,22 @@ function App() {
                 ?.join("-")}?id=${recipePopular[0]?.id}`}
               className="col-md-6 col-xs-12"
             >
-              <img
-                src={recipePopular[0]?.recipePicture}
-                alt="Recipe Popular"
-                width="500px"
-                height="500px"
-                style={{
-                  zIndex: 1,
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  borderRadius: "10px",
-                  objectFit: "cover",
-                }}
-              />
+              {loading ? (
+                <Skeleton width={400} height={400} /> // Use Skeleton component here
+              ) : (
+                <img
+                  src={recipePopular[0]?.recipePicture}
+                  alt="Recipe Popular"
+                  width="500px"
+                  height="500px"
+                  style={{
+                    zIndex: 1,
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
             </Link>
 
             <div className="col-md-6 col-xs-12">
@@ -196,17 +200,21 @@ function App() {
                   ?.join("-")}?id=${recipeNew[0]?.id}`}
                 className="col-md-6 col-xs-12"
               >
-                <img
-                  src={recipeNew[0]?.recipePicture}
-                  width="500px"
-                  height="500px"
-                  style={{
-                    zIndex: 1,
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                    borderRadius: "10px",
-                    objectFit: "cover",
-                  }}
-                />
+                {loading ? (
+                  <Skeleton width={400} height={400} /> 
+                ) : (
+                  <img
+                    src={recipeNew[0]?.recipePicture}
+                    width="500px"
+                    height="500px"
+                    style={{
+                      zIndex: 1,
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                      borderRadius: "10px",
+                      objectFit: "cover",
+                    }}
+                  />
+                )}
               </Link>
             </div>
             <div className="col-md-5 col-xs-12">
