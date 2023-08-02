@@ -9,6 +9,7 @@ import Register from "./pages/Register"
 import Login from "./pages/Login";
 import AddRecipe from "./pages/AddRecipe";
 import Profile from "./pages/Profile";
+import ForgetPassword from "./pages/ForgetPassword";
 import store from './store'
 import { Provider } from 'react-redux'
 import axios from "axios";
@@ -41,6 +42,10 @@ const router =createBrowserRouter([
   {
     path: "/video/:id",
     element: <Video />,
+  },
+  {
+    path: "/forgetpassword",
+    element: <ForgetPassword />,
   },
 ]);
 

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
   const [isChecked, setIsChecked] = React.useState(false);
@@ -21,13 +20,13 @@ function Register() {
   const handleRegister = () => {
     if (!isChecked) {
       Swal.fire({
-        title: 'Agree to Terms',
-        text: 'Please agree to the terms & conditions to log in.',
-        icon: 'warning',
+        title: "Agree to Terms",
+        text: "Please agree to the terms & conditions to log in.",
+        icon: "warning",
       });
       return;
     }
-       Swal.showLoading();
+    Swal.showLoading();
     axios
       .post(`${process.env.REACT_APP_BASE_URL}/auth/register`, {
         email: email,
@@ -162,9 +161,6 @@ function Register() {
                 </label>
               </div>
 
-
-
-
               <div className="d-grid mb-3">
                 <button
                   type="submit"
@@ -183,7 +179,7 @@ function Register() {
                 className="text-warning text-decoration-none mb-3"
                 to="/login"
               >
-                Log in Here
+                &nbsp; Log in Here
               </Link>
             </small>
           </div>

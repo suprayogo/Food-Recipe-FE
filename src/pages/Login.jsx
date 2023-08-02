@@ -4,9 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import {addAuth} from "../reducers/auth"
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { addAuth } from "../reducers/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
   const [isChecked, setIsChecked] = React.useState(false);
@@ -20,53 +19,48 @@ function Login() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+  React.useEffect(() => {
+    if (localStorage.getItem("auth") || state.auth) {
+      navigate("/profile");
+    }
+  }, [state]);
 
-
-
-React.useEffect(() => {
-  if (localStorage.getItem("auth") || state.auth){
-    navigate("/profile");
-  }
-}, [state]);
-
-
-
-const handleLogin = () => {
-  if (!isChecked) {
-    Swal.fire({
-      title: 'Agree to Terms',
-      text: 'Please agree to the terms & conditions to log in.',
-      icon: 'warning',
-    });
-    return;
-  }
-  Swal.showLoading();
-  axios
-    .post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
-      email: email,
-      password: password,
-    })
-    .then((result) => {
+  const handleLogin = () => {
+    if (!isChecked) {
       Swal.fire({
-        title: 'Login Success',
-        text: 'Login Success, Redirect In App',
-        icon: 'success',
-      }).then(() => {
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem('token', result?.data?.token);
-        dispatch(addAuth(result));
-        console.log(result?.data?.token);
-        navigate('/profile');
+        title: "Agree to Terms",
+        text: "Please agree to the terms & conditions to log in.",
+        icon: "warning",
       });
-    })
-    .catch((error) => {
-      Swal.fire({
-        title: 'Login Failed',
-        text: error?.response?.data?.message ?? 'Something wrong in our app',
-        icon: 'error',
+      return;
+    }
+    Swal.showLoading();
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+        email: email,
+        password: password,
+      })
+      .then((result) => {
+        Swal.fire({
+          title: "Login Success",
+          text: "Login Success, Redirect In App",
+          icon: "success",
+        }).then(() => {
+          localStorage.setItem("auth", "true");
+          localStorage.setItem("token", result?.data?.token);
+          dispatch(addAuth(result));
+          console.log(result?.data?.token);
+          navigate("/profile");
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Login Failed",
+          text: error?.response?.data?.message ?? "Something wrong in our app",
+          icon: "error",
+        });
       });
-    });
-  }
+  };
 
   return (
     <>
@@ -77,9 +71,11 @@ const handleLogin = () => {
             <p className="text-center">Log in into your exiting account</p>
             <hr />
 
-            <form onSubmit={(event) => {
-              event.preventDefault();
-            }}>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   E-mail
@@ -95,34 +91,28 @@ const handleLogin = () => {
                 />
               </div>
 
-
               <div className="mb-3">
                 <label for="exampleInputPassword1" className="form-label">
                   Password
                 </label>
                 <div className="input-group">
-                <input
-                 type={showPassword ? "text" : "password"}
-                  className="form-control form-control-lg"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                     <button
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-control form-control-lg"
+                    id="exampleInputPassword1"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
                     className="btn btn-outline-warning"
                     type="button"
                     onClick={handlePasswordToggle}
                   >
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
+                </div>
               </div>
-              </div>
-
-
-
-
-
 
               <div className="mb-3 form-check">
                 <input
@@ -137,7 +127,12 @@ const handleLogin = () => {
                 </label>
               </div>
               <div className="d-grid">
-                <button type="submit" disabled={!isChecked} className="btn btn-warning btn-lg" onClick={handleLogin}>
+                <button
+                  type="submit"
+                  disabled={!isChecked}
+                  className="btn btn-warning btn-lg"
+                  onClick={handleLogin}
+                >
                   Log in
                 </button>
               </div>
@@ -145,7 +140,7 @@ const handleLogin = () => {
 
             <small>
               <Link
-                to="/forget.html"
+                to="/forgetpassword"
                 className="d-block text-decoration-none text-muted text-right mt-3"
               >
                 Forgot Password
@@ -159,7 +154,7 @@ const handleLogin = () => {
                 className="text-warning text-decoration-none"
                 to="/register"
               >
-                Sign Up
+                &nbsp; Sign Up
               </Link>
             </small>
           </div>
