@@ -192,29 +192,45 @@ function Profile() {
                 </li>
               </ul>
             </div>
+
             <div className="card-body" id="card-body">
-              {active ? (
-                <div class="row">
-                  {recipeList.map((item) => (
-                    <RecipeCard
-                      title={item?.title}
-                      image={item?.recipePicture}
-                      id={item?.id}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div class="row">
-                  {recipeLike.map((item) => (
-                    <RecipeCard
-                      title={item?.title}
-                      image={item?.recipePicture}
-                      id={item?.id_recipe}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+  {active ? (
+    <div className="row">
+      {recipeList.length > 0 ? (
+        recipeList.map((item) => (
+          <RecipeCard
+            key={item?.id}
+            title={item?.title}
+            image={item?.recipePicture}
+            id={item?.id}
+          />
+        ))
+      ) : (
+        <h5 className="text-muted d-flex justify-content-center align-items-center">
+         Your Recipe Not Found
+        </h5>
+      )}
+    </div>
+  ) : (
+    <div className="row">
+      {recipeLike.length > 0 ? (
+        recipeLike.map((item) => (
+          <RecipeCard
+            key={item?.id_recipe}
+            title={item?.title}
+            image={item?.recipePicture}
+            id={item?.id_recipe}
+          />
+        ))
+      ) : (
+        <h5 className="text-muted d-flex justify-content-center align-items-center">
+          Recipe Like Not Found
+        </h5>
+      )}
+    </div>
+  )}
+</div>
+
           </div>
         </div>
       </section>
