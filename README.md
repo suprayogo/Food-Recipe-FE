@@ -22,7 +22,7 @@ Food Recipe is a web application for sharing recipes with features to register, 
 ### Installation
 - Clone This Repository
 
-`https://github.com/suprayogo/learn-react-fe.git`
+`https://github.com/suprayogo/Food-Recipe-FE.git`
 
 - Install Module
 
