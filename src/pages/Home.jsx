@@ -159,8 +159,8 @@ function App() {
                 />
               )}
             </Link>
-
-            <div className="col-md-6 col-xs-12">
+<div className="col-md-1"></div>
+            <div className="col-md-5 col-xs-12">
               <h3>
                 {recipePopular[0]?.title
                   ? recipePopular[0].title
@@ -184,7 +184,7 @@ function App() {
                   ?.toLowerCase()
                   ?.split(" ")
                   ?.join("-")}?id=${recipePopular[0]?.id}`}
-                className="col-md-6 col-xs-12"
+                className="col-md-5 col-xs-12"
               >
                 <button className="btn btn-warning">Detail</button>
               </Link>
@@ -228,6 +228,7 @@ function App() {
                 )}
               </Link>
             </div>
+            <div className="col-md-1"></div>
             <div className="col-md-5 col-xs-12">
               <h3>
                 {" "}

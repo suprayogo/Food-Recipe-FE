@@ -128,8 +128,7 @@ h3.my-custom-heading {
 
 
 
-@media only screen and (min-width: 576px) and (max-width: 768px) {
-}
+
 
 @media only screen and (max-width: 575px) {
   nav {

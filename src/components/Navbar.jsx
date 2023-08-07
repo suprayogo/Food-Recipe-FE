@@ -48,7 +48,7 @@ function Navbar() {
           </div>
 
           <div
-            className="col-lg nav_link_2"
+            className="col-lg col-md-2 nav_link_2"
             style={{
               zIndex: 1,
             }}
@@ -69,13 +69,13 @@ function Navbar() {
             ) : (
               <>
                 <Link
-                  className="text-white me-5  fw-medium text-decoration-none"
+                  className="text-black me-5  fw-medium text-decoration-none"
                   to="/login"
                 >
                   Login
                 </Link>
                 <Link
-                  className="text-white  fw-medium text-decoration-none"
+                  className="text-black  fw-medium text-decoration-none"
                   to="/register"
                 >
                   Register
