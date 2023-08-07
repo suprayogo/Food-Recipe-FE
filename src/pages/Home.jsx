@@ -16,12 +16,19 @@ function App() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setLoading(true); 
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/popular`)
-      .then((response) => setRecipePopular(response?.data?.data));
-    setLoading(false);
+    setLoading(true);
+    axios.get(`${process.env.REACT_APP_BASE_URL}/popular`)
+      .then((response) => {
+        setRecipePopular(response?.data?.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching popular recipes:", error);
+        setLoading(false);
+       console.log(error)
+      });
   }, []);
+  
 
   React.useEffect(() => {
     setLoading(true); 
@@ -111,11 +118,11 @@ function App() {
                   }}
                 />
               )}
+        <div className="bg_yellow"></div>
             </div>
           </div>
         </div>
 
-        <div className="bg_yellow"></div>
       </header>
       {/* {Header of end} */}
 

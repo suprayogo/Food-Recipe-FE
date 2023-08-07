@@ -29,8 +29,8 @@
 
 .bg_yellow {
   background-color: #efc81a;
-  height: 700px;
-  width: 25%;
+  height: 110vh;
+  width: 400px;
   position: absolute;
   right: 0;
   top: 0;
@@ -175,3 +175,5 @@ h3.my-custom-heading {
     left: 10vh;
   }
 }
+
+

@@ -6,7 +6,7 @@ function Navbar() {
     <div>
       <nav className="container mt-4">
         <div className="row animate__animated animate__fadeInDown">
-          <div className="col-10">
+          <div className="col-lg-10">
             <div className="nav_link">
               <NavLink
                 className={({ isActive, isPending }) =>
@@ -48,7 +48,7 @@ function Navbar() {
           </div>
 
           <div
-            className="col nav_link_2"
+            className="col-lg nav_link_2"
             style={{
               zIndex: 1,
             }}
