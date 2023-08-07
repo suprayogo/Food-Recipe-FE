@@ -69,13 +69,13 @@ function Navbar() {
             ) : (
               <>
                 <Link
-                  className="text-black me-5  fw-medium text-decoration-none"
+                  className="text-white me-5  fw-medium text-decoration-none"
                   to="/login"
                 >
                   Login
                 </Link>
                 <Link
-                  className="text-black  fw-medium text-decoration-none"
+                  className="text-white  fw-medium text-decoration-none"
                   to="/register"
                 >
                   Register
