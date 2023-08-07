@@ -44,8 +44,9 @@
 
 .bg_yellow_2 {
   background-color: #efc81a;
-  height: 100vh;
+  height: 100%;
   width: 25%;
+  max-width: 25%;
   position: absolute;
   left: 0;
   top: 12vh;
